@@ -71,14 +71,15 @@
   <!-- Filtros de categorias (scroll horizontal) -->
   <section class="max-w-6xl mx-auto px-4 py-4 overflow-x-auto flex gap-3">
     <button class="filter-btn px-4 py-2 rounded-full shadow transition flex-shrink-0" onclick="filterCategory('all', this)">Todos</button>
-    <button class="filter-btn px-4 py-2 rounded-full shadow transition flex-shrink-0" onclick="filterCategory('pizza', this)">Pizzas</button>
-    <button class="filter-btn px-4 py-2 rounded-full shadow transition flex-shrink-0" onclick="filterCategory('bebida', this)">Bebidas</button>
+    <button class="filter-btn px-4 py-2 rounded-full shadow transition flex-shrink-0" onclick="filterCategory('novidades', this)">Novidades</button>
+    <button class="filter-btn px-4 py-2 rounded-full shadow transition flex-shrink-0" onclick="filterCategory('pizzas', this)">Pizzas</button>
+    <button class="filter-btn px-4 py-2 rounded-full shadow transition flex-shrink-0" onclick="filterCategory('bebidas', this)">Bebidas</button>
   </section>
 
   <!-- Cardápio -->
   <section class="max-w-6xl mx-auto px-5 py-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="menu">
     <!-- Exemplo de cards -->
-    <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="pizza" data-name="Pizza Calabresa" data-price="35">
+    <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="pizzas" data-name="Pizza Calabresa" data-price="35">
         <img src="img/pizza1.jpg" alt="Pizza Calabresa" class="w-full h-48 object-cover">
         <div class="p-4">
           <h3 class="text-lg font-semibold">Calabresa</h3>
@@ -90,7 +91,7 @@
         </div>
       </div>
       
-      <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="pizza" data-name="Pizza Margherita" data-price="38">
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="pizzas" data-name="Pizza Margherita" data-price="38">
         <img src="img/pizza2.jpg" alt="Pizza Margherita" class="w-full h-48 object-cover">
         <div class="p-4">
           <h3 class="text-lg font-semibold">Margherita</h3>
@@ -102,7 +103,7 @@
         </div>
       </div>
       
-      <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="pizza" data-name="Pizza Frango com Catupiry" data-price="36">
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="pizzas" data-name="Pizza Frango com Catupiry" data-price="36">
         <img src="img/pizza3.png" alt="Pizza Frango com Catupiry" class="w-full h-48 object-cover">
         <div class="p-4">
           <h3 class="text-lg font-semibold">Frango com Catupiry</h3>
@@ -114,7 +115,7 @@
         </div>
       </div>
       
-      <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="pizza" data-name="Pizza Quatro Queijos" data-price="37">
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="pizzas" data-name="Pizza Quatro Queijos" data-price="37">
         <img src="img/pizza4.png" alt="Pizza Quatro Queijos" class="w-full h-48 object-cover">
         <div class="p-4">
           <h3 class="text-lg font-semibold">Quatro Queijos</h3>
@@ -126,7 +127,7 @@
         </div>
       </div>
       
-      <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="pizza" data-name="Pizza Portuguesa" data-price="37">
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="pizzas" data-name="Pizza Portuguesa" data-price="37">
         <img src="img/pizza5.jpg" alt="Pizza Portuguesa" class="w-full h-48 object-cover">
         <div class="p-4">
           <h3 class="text-lg font-semibold">Portuguesa</h3>
@@ -138,7 +139,7 @@
         </div>
       </div>
       
-      <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="pizza" data-name="Pizza Vegetariana" data-price="36">
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="pizzas,novidades" data-name="Pizza Vegetariana" data-price="36">
         <img src="img/pizza6.png" alt="Pizza Vegetariana" class="w-full h-48 object-cover">
         <div class="p-4">
           <h3 class="text-lg font-semibold">Vegetariana</h3>
@@ -150,7 +151,7 @@
         </div>
       </div>
       
-      <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="bebida" data-name="Coca-Cola" data-price="8">
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden card" data-category="bebidas" data-name="Coca-Cola" data-price="8">
         <img src="img/bebida1.jpg" alt="Coca-Cola" class="w-full h-48 object-cover">
         <div class="p-4">
           <h3 class="text-lg font-semibold">Coca-Cola Lata</h3>
@@ -211,194 +212,257 @@
 
 <!-- Script -->
 <script>
-    const cards = document.querySelectorAll('.card');
-    const buttons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.card');
+  const buttons = document.querySelectorAll('.filter-btn');
+  
+  function showCards() {
+      cards.forEach(card => card.classList.add('show'));
+  }
+  window.addEventListener('load', showCards);
 
-    function showCards() {
-        cards.forEach(card => card.classList.add('show'));
-    }
-    window.addEventListener('load', showCards);
+function filterCategory(category, btn) {
+    // Marca botão ativo
+    buttons.forEach(b => b.classList.remove('btn-active'));
+    btn.classList.add('btn-active');
 
-    function filterCategory(category, btn) {
-        buttons.forEach(b => b.classList.remove('btn-active'));
-        btn.classList.add('btn-active');
+    const searchValue = document.getElementById('searchInput').value.toLowerCase();
+    const menu = document.getElementById('menu');
+    const categories = {};
 
-        const searchValue = document.getElementById('searchInput').value.toLowerCase();
-
-        cards.forEach(card => {
-        const matchesCategory = category === 'all' || card.dataset.category === category;
+    // Agrupa cards por categoria
+    cards.forEach(card => {
+        const cardCategories = card.dataset.category.split(',').map(c => c.trim());
         const matchesSearch = card.dataset.name.toLowerCase().includes(searchValue);
-        if(matchesCategory && matchesSearch) {
-            card.style.display = 'block';
-            setTimeout(() => card.classList.add('show'), 10);
-        } else {
-            card.style.display = 'none';
-            card.classList.remove('show');
-        }
+        if (!matchesSearch) return;
+
+        cardCategories.forEach(cat => {
+            if (category !== 'all' && cat !== category) return;
+            if (!categories[cat]) categories[cat] = [];
+            categories[cat].push(card);
         });
-    }
+    });
 
-    function filterByName() {
-        const searchValue = document.getElementById('searchInput').value.toLowerCase();
-        const activeCategory = document.querySelector('.btn-active').textContent.toLowerCase();
-        cards.forEach(card => {
-        const matchesCategory = activeCategory === 'todos' || card.dataset.category === activeCategory;
-        const matchesSearch = card.dataset.name.toLowerCase().includes(searchValue);
-        if(matchesCategory && matchesSearch) {
-            card.style.display = 'block';
-            setTimeout(() => card.classList.add('show'), 10);
-        } else {
-            card.style.display = 'none';
-            card.classList.remove('show');
-        }
-        });
-    }
+    menu.innerHTML = '';
 
-    buttons[0].classList.add('btn-active');
-
-    function sortCards(order) {
-        const menu = document.getElementById('menu');
-        const cardsArray = Array.from(menu.children);
-
-        cardsArray.sort((a, b) => {
-        if(order.includes('name')) {
-            const nameA = a.dataset.name.toLowerCase();
-            const nameB = b.dataset.name.toLowerCase();
-            return order === 'name-asc' ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
-        }
-        if(order.includes('price')) {
-            const priceA = parseFloat(a.dataset.price);
-            const priceB = parseFloat(b.dataset.price);
-            return order === 'price-asc' ? priceA - priceB : priceB - priceA;
-        }
+    // Ordena categorias: Novidades primeiro
+    const orderedCategories = Object.keys(categories).sort((a, b) => {
+        if (a.toLowerCase() === 'novidades') return -1;
+        if (b.toLowerCase() === 'novidades') return 1;
         return 0;
+    });
+
+    // Adiciona título e cards
+    orderedCategories.forEach(cat => {
+        if (categories[cat].length === 0) return;
+
+        const title = document.createElement('h2');
+        title.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+        title.className = 'text-xl font-bold mb-2 col-span-full';
+        menu.appendChild(title);
+
+        categories[cat].forEach(card => {
+            const clone = (category === 'all') ? card.cloneNode(true) : card;
+            clone.style.display = 'block';
+            menu.appendChild(clone);
+            setTimeout(() => clone.classList.add('show'), 10);
         });
-
-        cardsArray.forEach(card => menu.appendChild(card));
-
-        // fecha o menu após ordenar
-        document.getElementById('sortOptions').classList.add('hidden');
-    }
-    // Pega o botão
-    const backToTopBtn = document.getElementById('backToTop');
-
-    // Mostra o botão quando o usuário rola para baixo 300px
-    window.onscroll = function() {
-    if (window.scrollY > 300) {
-        backToTopBtn.classList.remove('hidden');
-    } else {
-        backToTopBtn.classList.add('hidden');
-    }
-    };
-
-    // Função para rolar ao topo suavemente
-    function scrollToTop() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
     });
-    }
+}
 
-    // Carrinho
-    const cartBtn = document.getElementById('cartButton');
-    const closeBtn = document.getElementById('closeCart');
-    const cartEl = document.getElementById('cart');
-    let cart = [];
+// Função para filtrar por nome
+function filterByName() {
+    const searchValue = document.getElementById('searchInput').value.toLowerCase();
+    const activeCategory = document.querySelector('.btn-active').textContent.toLowerCase();
+    const menu = document.getElementById('menu');
+    const categories = {};
 
-    // Abre/fecha carrinho
-    cartBtn.addEventListener('click', () => cartEl.classList.toggle('translate-x-full'));
-    closeBtn.addEventListener('click', () => cartEl.classList.add('translate-x-full'));
+    cards.forEach(card => {
+        const cardCategories = card.dataset.category.split(',').map(c => c.trim());
+        const matchesSearch = card.dataset.name.toLowerCase().includes(searchValue);
+        if (!matchesSearch) return;
 
-    // Adiciona item
-    function addToCart(button) {
-    // adiciona ao carrinho normalmente
-    const card = button.closest('.card');
-    const name = card.dataset.name;
-    const price = parseFloat(card.dataset.price);
-
-    const existing = cart.find(item => item.name === name);
-    if(existing) existing.quantity++;
-    else cart.push({ name, price, quantity: 1 });
-
-    updateCartUI();
-
-    // pulso no botão do carrinho
-    const cartBtn = document.getElementById('cartButton');
-    cartBtn.classList.add('pulse');
-
-    // remove a classe após a animação para poder repetir
-    setTimeout(() => cartBtn.classList.remove('pulse'), 300);
-    }
-
-    // Atualiza UI do carrinho
-    function updateCartUI() {
-    const cartItems = document.getElementById('cartItems');
-    const cartTotal = document.getElementById('cartTotal');
-    const checkoutButton = document.getElementById('checkoutButton');
-
-    cartItems.innerHTML = '';
-    let total = 0;
-
-    cart.forEach(item => {
-        total += item.price * item.quantity;
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'flex justify-between items-center text-sm mb-2';
-        itemDiv.innerHTML = `
-            <span>${item.quantity}x ${item.name}</span>
-            <div class="flex gap-1">
-                <button onclick="changeQuantity('${item.name}', -1)" class="bg-gray-300 hover:bg-gray-400 text-white px-2 rounded-full font-bold">-</button>
-                <button onclick="changeQuantity('${item.name}', 1)" class="bg-gray-500 hover:bg-gray-600 text-white px-2 rounded-full font-bold">+</button>
-            </div>
-        `;
-        cartItems.appendChild(itemDiv);
+        cardCategories.forEach(cat => {
+            if (activeCategory !== 'todos' && cat !== activeCategory) return;
+            if (!categories[cat]) categories[cat] = [];
+            categories[cat].push(card);
+        });
     });
 
-    cartTotal.textContent = `R$ ${total.toFixed(2)}`;
-    let message = 'Olá! Gostaria de fazer o pedido:\n';
-    cart.forEach(item => message += `- ${item.quantity}x ${item.name}\n`);
-    message += `Total: R$ ${total.toFixed(2)}`;
-    checkoutButton.href = `https://wa.me/5599999999999?text=${encodeURIComponent(message)}`;
-    }
+    menu.innerHTML = '';
 
-    // Alterar quantidade
-    function changeQuantity(name, delta) {
-    const item = cart.find(i => i.name === name);
-    if(!item) return;
-    item.quantity += delta;
-    if(item.quantity <= 0) cart = cart.filter(i => i.name !== name);
-    updateCartUI();
-    }
+    const orderedCategories = Object.keys(categories).sort((a, b) => {
+        if (a.toLowerCase() === 'novidades') return -1;
+        if (b.toLowerCase() === 'novidades') return 1;
+        return 0;
+    });
 
-    // Animação Pulsar
-    function pulseCart() {
-    const cartBtn = document.getElementById('cartButton');
-    cartBtn.classList.add('pulse');
-    setTimeout(() => cartBtn.classList.remove('pulse'), 400);
-    }
+    orderedCategories.forEach(cat => {
+        if (categories[cat].length === 0) return;
 
-    // Animação pro Carrinho
-    function flyDot(button) {
-    const cartBtn = document.getElementById('cartButton');
-    const rect = button.getBoundingClientRect();
-    const cartRect = cartBtn.getBoundingClientRect();
+        const title = document.createElement('h2');
+        title.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+        title.className = 'text-xl font-bold mb-2 col-span-full';
+        menu.appendChild(title);
 
-    const dot = document.createElement('div');
-    dot.className = 'fly-dot';
-    dot.style.top = rect.top + rect.height/2 + 'px';
-    dot.style.left = rect.left + rect.width/2 + 'px';
+        categories[cat].forEach(card => {
+            const clone = (activeCategory === 'todos') ? card.cloneNode(true) : card;
+            clone.style.display = 'block';
+            menu.appendChild(clone);
+            setTimeout(() => clone.classList.add('show'), 10);
+        });
+    });
+}
 
-    // calcula o deslocamento
-    const x = cartRect.left + cartRect.width/2 - (rect.left + rect.width/2);
-    const y = cartRect.top + cartRect.height/2 - (rect.top + rect.height/2);
+  buttons[0].classList.add('btn-active');
 
-    dot.style.setProperty('--x', x + 'px');
-    dot.style.setProperty('--y', y + 'px');
+  function sortCards(order) {
+      const menu = document.getElementById('menu');
+      const cardsArray = Array.from(menu.children);
 
-    document.body.appendChild(dot);
+      cardsArray.sort((a, b) => {
+      if(order.includes('name')) {
+          const nameA = a.dataset.name.toLowerCase();
+          const nameB = b.dataset.name.toLowerCase();
+          return order === 'name-asc' ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+      }
+      if(order.includes('price')) {
+          const priceA = parseFloat(a.dataset.price);
+          const priceB = parseFloat(b.dataset.price);
+          return order === 'price-asc' ? priceA - priceB : priceB - priceA;
+      }
+      return 0;
+      });
 
-    // remove depois da animação
-    setTimeout(() => document.body.removeChild(dot), 700);
-    }
+      cardsArray.forEach(card => menu.appendChild(card));
+
+      // fecha o menu após ordenar
+      document.getElementById('sortOptions').classList.add('hidden');
+  }
+  // Pega o botão
+  const backToTopBtn = document.getElementById('backToTop');
+
+  // Mostra o botão quando o usuário rola para baixo 300px
+  window.onscroll = function() {
+  if (window.scrollY > 300) {
+      backToTopBtn.classList.remove('hidden');
+  } else {
+      backToTopBtn.classList.add('hidden');
+  }
+  };
+
+  // Função para rolar ao topo suavemente
+  function scrollToTop() {
+  window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+  });
+  }
+
+  // Carrinho
+  const cartBtn = document.getElementById('cartButton');
+  const closeBtn = document.getElementById('closeCart');
+  const cartEl = document.getElementById('cart');
+  let cart = [];
+
+  // Abre/fecha carrinho
+  cartBtn.addEventListener('click', () => cartEl.classList.toggle('translate-x-full'));
+  closeBtn.addEventListener('click', () => cartEl.classList.add('translate-x-full'));
+
+  // Adiciona item
+  function addToCart(button) {
+  // adiciona ao carrinho normalmente
+  const card = button.closest('.card');
+  const name = card.dataset.name;
+  const price = parseFloat(card.dataset.price);
+
+  const existing = cart.find(item => item.name === name);
+  if(existing) existing.quantity++;
+  else cart.push({ name, price, quantity: 1 });
+
+  updateCartUI();
+
+  // pulso no botão do carrinho
+  const cartBtn = document.getElementById('cartButton');
+  cartBtn.classList.add('pulse');
+
+  // remove a classe após a animação para poder repetir
+  setTimeout(() => cartBtn.classList.remove('pulse'), 300);
+  }
+
+  // Atualiza UI do carrinho
+  function updateCartUI() {
+  const cartItems = document.getElementById('cartItems');
+  const cartTotal = document.getElementById('cartTotal');
+  const checkoutButton = document.getElementById('checkoutButton');
+
+  cartItems.innerHTML = '';
+  let total = 0;
+
+  cart.forEach(item => {
+      total += item.price * item.quantity;
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'flex justify-between items-center text-sm mb-2';
+      itemDiv.innerHTML = `
+          <span>${item.quantity}x ${item.name}</span>
+          <div class="flex gap-1">
+              <button onclick="changeQuantity('${item.name}', -1)" class="bg-gray-300 hover:bg-gray-400 text-white px-2 rounded-full font-bold">-</button>
+              <button onclick="changeQuantity('${item.name}', 1)" class="bg-gray-500 hover:bg-gray-600 text-white px-2 rounded-full font-bold">+</button>
+          </div>
+      `;
+      cartItems.appendChild(itemDiv);
+  });
+
+  cartTotal.textContent = `R$ ${total.toFixed(2)}`;
+  let message = 'Olá! Gostaria de fazer o pedido:\n';
+  cart.forEach(item => message += `- ${item.quantity}x ${item.name}\n`);
+  message += `Total: R$ ${total.toFixed(2)}`;
+  checkoutButton.href = `https://wa.me/5599999999999?text=${encodeURIComponent(message)}`;
+  }
+
+  // Alterar quantidade
+  function changeQuantity(name, delta) {
+  const item = cart.find(i => i.name === name);
+  if(!item) return;
+  item.quantity += delta;
+  if(item.quantity <= 0) cart = cart.filter(i => i.name !== name);
+  updateCartUI();
+  }
+
+  // Animação Pulsar
+  function pulseCart() {
+  const cartBtn = document.getElementById('cartButton');
+  cartBtn.classList.add('pulse');
+  setTimeout(() => cartBtn.classList.remove('pulse'), 400);
+  }
+
+  // Animação pro Carrinho
+  function flyDot(button) {
+  const cartBtn = document.getElementById('cartButton');
+  const rect = button.getBoundingClientRect();
+  const cartRect = cartBtn.getBoundingClientRect();
+
+  const dot = document.createElement('div');
+  dot.className = 'fly-dot';
+  dot.style.top = rect.top + rect.height/2 + 'px';
+  dot.style.left = rect.left + rect.width/2 + 'px';
+
+  // calcula o deslocamento
+  const x = cartRect.left + cartRect.width/2 - (rect.left + rect.width/2);
+  const y = cartRect.top + cartRect.height/2 - (rect.top + rect.height/2);
+
+  dot.style.setProperty('--x', x + 'px');
+  dot.style.setProperty('--y', y + 'px');
+
+  document.body.appendChild(dot);
+
+  // remove depois da animação
+  setTimeout(() => document.body.removeChild(dot), 700);
+  }
+  // Inicializa com "Todos" selecionado
+  window.addEventListener('load', () => {
+      filterCategory('all', buttons[0]);
+  });
+
 </script>
 
 </body>
